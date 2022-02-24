@@ -4,6 +4,7 @@ from sklearn.neighbors import KNeighborsClassifier
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+import pickle
 
 #Import data
 df = pd.read_csv('ml-premierl.csv',sep=';')
@@ -38,10 +39,11 @@ X_data_minmax = MinMaxScaler.fit_transform(x_data)
 data = pd.DataFrame(X_data_minmax,columns=['minutes', 'goals', 'assists', 'cleansheets','yc'])
 print(data.head())
 
+#Define model
+knn_clf=KNeighborsClassifier(n_neighbors = 3)
+
 #Train
 X_train, X_test, y_train, y_test = train_test_split(data, y_data,test_size=0.2, random_state = 1)
-knn_clf=KNeighborsClassifier(n_neighbors = 4)
-
 knn_clf.fit(X_train,y_train)
 
 predictions=knn_clf.predict(X_test) #These are the predicted output values
@@ -52,3 +54,5 @@ print(comparison)
 # saving model
 # https://www.youtube.com/watch?v=KfnhNlD8WZI&ab_channel=codebasics
 
+with open('model_pickle','wb') as f:
+    pickle.dump(knn_clf, f)
