@@ -42,17 +42,23 @@ print(data.head())
 #Define model
 knn_clf=KNeighborsClassifier(n_neighbors = 3)
 
-#Train
+## Training the model
+# Divide the data into into training and and test datasets
 X_train, X_test, y_train, y_test = train_test_split(data, y_data,test_size=0.2, random_state = 1)
 knn_clf.fit(X_train,y_train)
 
-predictions=knn_clf.predict(X_test) #These are the predicted output values
-
+#These are the predicted output values
+predictions=knn_clf.predict(X_test)
 comparison = pd.DataFrame({'Real':y_test, 'Predictions':predictions})
 print(comparison)
+
+#Probability or accuracy how the test data was predicted
+print(knn_clf.score(X_test,y_test))
+
+
 
 # saving model
 # https://www.youtube.com/watch?v=KfnhNlD8WZI&ab_channel=codebasics
 
-with open('model_pickle','wb') as f:
-    pickle.dump(knn_clf, f)
+#with open('model_pickle','wb') as f:
+#    pickle.dump(knn_clf, f)
